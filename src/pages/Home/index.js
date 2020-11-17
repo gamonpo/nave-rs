@@ -1,9 +1,6 @@
-import React, { useState } from 'react'
-
-import { Modal } from 'react-native'
-
-import { MaterialIcons, Foundation } from '@expo/vector-icons'
-
+import React, { useState } from 'react';
+import { Alert } from 'react-native';
+import { MaterialIcons, Foundation } from '@expo/vector-icons';
 import {
   SubHeader,
   Title,
@@ -15,23 +12,22 @@ import {
   Action,
   Delete,
   Edit,
-  NPic
-} from './styles'
+  NPic,
+} from './styles';
 
-import Header from '../../components/Header'
-import Notification from '../Notification'
-import { Button } from '../../components/SmallButton/styles'
-import { Container, Label } from '../../components/Form/styles'
+import Header from '../../components/Header';
+import { Button } from '../../components/SmallButton/styles';
+import { Container, Label } from '../../components/Form/styles';
 
-import colors from '../../style/colors'
+import colors from '../../style/colors';
 
-import img1 from '../../images/img1.png'
-import img2 from '../../images/img2.png'
-import img3 from '../../images/img3.png'
-import img4 from '../../images/img4.png'
+import img1 from '../../images/img1.png';
+import img2 from '../../images/img2.png';
+import img3 from '../../images/img3.png';
+import img4 from '../../images/img4.png';
 
-export default function Home ({ navigation }) {
-  const devs = [
+export default function Home({ navigation }) {
+  const [devs, setDevs] = useState([
     {
       id: 1,
       name: 'Juliano Reis',
@@ -40,7 +36,7 @@ export default function Home ({ navigation }) {
       age: '20',
       time: '2',
       project: 'Lorem ipsum',
-      url: 'URL da foto do naver'
+      url: 'URL da foto do naver',
     },
     {
       id: 2,
@@ -50,7 +46,7 @@ export default function Home ({ navigation }) {
       age: '20',
       time: '2',
       project: 'Lorem ipsum',
-      url: 'URL da foto do naver'
+      url: 'URL da foto do naver',
     },
     {
       id: 3,
@@ -60,7 +56,7 @@ export default function Home ({ navigation }) {
       age: '20',
       time: '2',
       project: 'Lorem ipsum',
-      url: 'URL da foto do naver'
+      url: 'URL da foto do naver',
     },
     {
       id: 4,
@@ -70,11 +66,19 @@ export default function Home ({ navigation }) {
       age: '20',
       time: '2',
       project: 'Lorem ipsum',
-      url: 'URL da foto do naver'
-    }
-  ]
+      url: 'URL da foto do naver',
+    },
+  ]);
 
-  const [value, setValue] = useState(false)
+  const arr = devs
+
+  const removeNaver = (naver) => {
+    const selectedNaver = arr.filter(( i ) => i !== naver)
+
+    setDevs(selectedNaver)
+
+    console.log(selectedNaver)
+  }
 
   const renderItem = ({ item }) => (
     <Naver>
@@ -89,7 +93,24 @@ export default function Home ({ navigation }) {
       </Ocuppation>
 
       <Action>
-        <Delete onPress={() => setValue(true)}>
+        <Delete
+          onPress={() =>
+            Alert.alert(
+              'Excluir naver',
+              'Tem certeza que deseja excluir este naver?',
+              [
+                {
+                  text: 'Cancelar',
+                  style: 'cancel'
+                },
+                {
+                  text: 'Excluir',
+                  onPress: () => removeNaver(item)
+                }
+              ]
+            )
+          }
+        >
           <Foundation name="trash" size={20} color="black" />
         </Delete>
 
@@ -98,16 +119,10 @@ export default function Home ({ navigation }) {
         </Edit>
       </Action>
     </Naver>
-  )
+  );
 
   return (
     <Container>
-      {visible === true ? (
-        <Notification value={value} />
-      ) : (
-        <Notification value={false} />
-      )}
-
       <Header navigation={navigation} />
 
       <SubHeader>
@@ -131,5 +146,5 @@ export default function Home ({ navigation }) {
         numColumns={2}
       />
     </Container>
-  )
+  );
 }

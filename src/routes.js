@@ -11,7 +11,6 @@ import Home from './pages/Home'
 import Profile from './pages/Profile'
 import NewNaver from './pages/NewNaver'
 import EditNaver from './pages/EditNaver'
-import Notification from './pages/Notification'
 
 const Drawer = createDrawerNavigator()
 
@@ -37,7 +36,6 @@ export default function Routes () {
         <Stack.Screen name="Profile" component={Profile} />
         <Stack.Screen name="NewNaver" component={NewNaver} />
         <Stack.Screen name="EditNaver" component={EditNaver} />
-        <Stack.Screen name="Notification" component={Notification} />
       </Stack.Navigator>
     </NavigationContainer>
   )

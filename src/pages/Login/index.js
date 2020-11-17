@@ -1,88 +1,57 @@
-import React from 'react';
+import React from 'react'
 
-import { useFonts, Montserrat_400Regular, Montserrat_600SemiBold } from '@expo-google-fonts/montserrat';
+import { Header, Logo, Form, Item } from './styles'
 
-import { AppLoading } from 'expo';
+import img from '../../images/Logo.png'
 
-import { 
-  Container, 
-  Header, 
-  Logo, 
-  Form,
-  Item,
-  EInput,
-  PInput, 
-  ELabel, 
-  PLabel,
-  BLabel,
-  Button, 
-} from './styles';
+import colors from '../../style/colors'
 
-import img from '../../images/Logo.png';
+import { Button } from '../../components/LargeButton/styles'
 
-export default function Login({ navigation }) {
-  let [fontsLoaded] = useFonts({
-    Montserrat_600SemiBold,
-    Montserrat_400Regular,
-  });
+import { Container, Input, Label } from '../../components/Form/styles'
 
-  if (!fontsLoaded) {
-    return <AppLoading />;
-  }
-
+export default function Login ({ navigation }) {
   return (
     <Container>
       <Header>
         <Logo source={img} />
-
       </Header>
 
       <Form>
-
         <Item>
-          <ELabel 
-            style={
-              { 
-                fontFamily: 'Montserrat_600SemiBold' 
-              }
-            }
+          <Label
+            style={{
+              fontFamily: 'Montserrat_600SemiBold'
+            }}
           >
             Email
-          </ELabel>
+          </Label>
 
-
-            <EInput 
-              placeholder={'E-mail'} 
-              style={{ fontFamily: 'Montserrat_400Regular' }}
-            />
-
-
+          <Input
+            placeholder={'E-mail'}
+            style={{ fontFamily: 'Montserrat_400Regular' }}
+          />
         </Item>
 
         <Item>
-          <PLabel 
-            style={
-              { 
-                fontFamily: 'Montserrat_600SemiBold' 
-              }
-            }
+          <Label
+            style={{
+              fontFamily: 'Montserrat_600SemiBold'
+            }}
           >
             Senha
-          </PLabel>
+          </Label>
 
-          <PInput  
-            placeholder={'Senha'} 
+          <Input
+            placeholder={'Senha'}
             style={{ fontFamily: 'Montserrat_400Regular' }}
-          /> 
-          
+          />
         </Item>
 
         <Button onPress={() => navigation.navigate('Menu')}>
-          <BLabel>Entrar</BLabel>
+          <Label style={{ fontFamily: 'Montserrat_500Medium', color: colors.white }}>Entrar</Label>
         </Button>
       </Form>
-      
     </Container>
-  );
-};
-
+  )
+}

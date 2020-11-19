@@ -3,7 +3,9 @@ import styled from 'styled-components/native';
 export const SubHeader = styled.View`
     flex-direction: row;
     justify-content: space-between;
-    top: 50px;
+    align-items: center;
+    top: 20px;
+    height: 100px;
 `;
 
 export const Title = styled.Text`
@@ -12,7 +14,6 @@ export const Title = styled.Text`
 `;
 
 export const Navers = styled.FlatList`
-    top: 65px;
 `;
 
 export const Naver = styled.View`

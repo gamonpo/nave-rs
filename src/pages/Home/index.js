@@ -1,6 +1,9 @@
-import React, { useState } from 'react';
-import { Alert } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { Alert, ScrollView } from 'react-native';
 import { MaterialIcons, Foundation } from '@expo/vector-icons';
+
+import api from '../../services/api';
+
 import {
   SubHeader,
   Title,
@@ -15,81 +18,59 @@ import {
   NPic,
 } from './styles';
 
-import Header from '../../components/Header';
+import HeadHome from '../../components/HeadHome';
 import { Button } from '../../components/SmallButton/styles';
 import { Container, Label } from '../../components/Form/styles';
 
 import colors from '../../style/colors';
 
 import img1 from '../../images/img1.png';
-import img2 from '../../images/img2.png';
-import img3 from '../../images/img3.png';
-import img4 from '../../images/img4.png';
 
-export default function Home({ navigation }) {
-  const [devs, setDevs] = useState([
-    {
-      id: 1,
-      name: 'Juliano Reis',
-      occupation: 'Front-end Developer',
-      picture: img1,
-      age: '20',
-      time: '2',
-      project: 'Lorem ipsum',
-      url: 'URL da foto do naver',
-    },
-    {
-      id: 2,
-      name: 'Gabriel do Couto',
-      occupation: 'Front-end Developer',
-      picture: img2,
-      age: '20',
-      time: '2',
-      project: 'Lorem ipsum',
-      url: 'URL da foto do naver',
-    },
-    {
-      id: 3,
-      name: 'Eduardo Bittencourt',
-      occupation: 'Front-end Developer',
-      picture: img3,
-      age: '20',
-      time: '2',
-      project: 'Lorem ipsum',
-      url: 'URL da foto do naver',
-    },
-    {
-      id: 4,
-      name: 'Gustavo Pinho',
-      occupation: 'Front-end Developer',
-      picture: img4,
-      age: '20',
-      time: '2',
-      project: 'Lorem ipsum',
-      url: 'URL da foto do naver',
-    },
-  ]);
+export default function Home({ route, navigation }) {
+  const { token } = route.params;
 
-  const arr = devs
+  const [devs, setDevs] = useState([]);
 
-  const removeNaver = (naver) => {
-    const selectedNaver = arr.filter(( i ) => i !== naver)
+  try {
+    useEffect(() => {
+      async function loadData() {
+        const response = await api.get('navers', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
 
-    setDevs(selectedNaver)
+        setDevs(response.data);
+      }
 
-    console.log(selectedNaver)
+      loadData();
+    });
+  } catch (error) {
+    Alert.alert('Não foi possível carregar os dados!');
   }
+
+  const removeNaver = (item) => {
+    async function deleteNaver() {
+      await api.delete(`navers/${item.id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+    }
+
+    deleteNaver();
+  };
 
   const renderItem = ({ item }) => (
     <Naver>
-      <NPic onPress={() => navigation.navigate('Profile', { item: item })}>
-        <Img source={item.picture} />
+      <NPic onPress={() => navigation.navigate('Profile', { item: item, token: token })}>
+        <Img source={img1} />
       </NPic>
 
       <Name style={{ fontFamily: 'Montserrat_600SemiBold' }}>{item.name}</Name>
 
       <Ocuppation style={{ fontFamily: 'Montserrat_500Medium' }}>
-        {item.occupation}
+        {item.job_role}
       </Ocuppation>
 
       <Action>
@@ -101,12 +82,12 @@ export default function Home({ navigation }) {
               [
                 {
                   text: 'Cancelar',
-                  style: 'cancel'
+                  style: 'cancel',
                 },
                 {
                   text: 'Excluir',
-                  onPress: () => removeNaver(item)
-                }
+                  onPress: () => removeNaver(item),
+                },
               ]
             )
           }
@@ -123,12 +104,14 @@ export default function Home({ navigation }) {
 
   return (
     <Container>
-      <Header navigation={navigation} />
+      <HeadHome navigation={navigation} />
 
       <SubHeader>
         <Title style={{ fontFamily: 'Montserrat_600SemiBold' }}>Navers</Title>
 
-        <Button onPress={() => navigation.navigate('NewNaver')}>
+        <Button
+          onPress={() => navigation.navigate('NewNaver', { token: token })}
+        >
           <Label
             style={{ fontFamily: 'Montserrat_500Medium', color: colors.white }}
           >

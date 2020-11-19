@@ -1,16 +1,52 @@
-import React from 'react'
+import React, { useState } from 'react';
 
-import { Header, Logo, Form, Item } from './styles'
+import { Alert } from 'react-native';
 
-import img from '../../images/Logo.png'
+import api from '../../services/api';
 
-import colors from '../../style/colors'
+import { Header, Logo, Form, Item } from './styles';
 
-import { Button } from '../../components/LargeButton/styles'
+import img from '../../images/Logo.png';
 
-import { Container, Input, Label } from '../../components/Form/styles'
+import colors from '../../style/colors';
 
-export default function Login ({ navigation }) {
+import { Button } from '../../components/LargeButton/styles';
+
+import { Container, Input, Label } from '../../components/Form/styles';
+
+export default function Login({ navigation }) {
+  const [email, setEmail] = useState();
+  const [password, setPassword] = useState();
+
+  const loginApp = () => {
+    if ((!email && !password) || !email || !password) {
+      Alert.alert('Informe as credenciais!');
+    } else {
+      try {
+        async function loginIn() {
+          {
+            const response = await api.post('users/login', {
+              email: email,
+              password: password,
+            });
+
+            const { token } = response.data;
+
+            if (response) {
+              navigation.navigate('Home', {
+                token: token,
+              });
+            }
+          }
+        }
+
+        loginIn();
+      } catch (error) {
+        Alert.alert('Não foi possível fazer login!');
+      }
+    }
+  };
+
   return (
     <Container>
       <Header>
@@ -21,7 +57,7 @@ export default function Login ({ navigation }) {
         <Item>
           <Label
             style={{
-              fontFamily: 'Montserrat_600SemiBold'
+              fontFamily: 'Montserrat_600SemiBold',
             }}
           >
             Email
@@ -30,13 +66,16 @@ export default function Login ({ navigation }) {
           <Input
             placeholder={'E-mail'}
             style={{ fontFamily: 'Montserrat_400Regular' }}
+            autoCorrect={false}
+            autoCapitalize="none"
+            onChangeText={(text) => setEmail(text)}
           />
         </Item>
 
         <Item>
           <Label
             style={{
-              fontFamily: 'Montserrat_600SemiBold'
+              fontFamily: 'Montserrat_600SemiBold',
             }}
           >
             Senha
@@ -45,13 +84,21 @@ export default function Login ({ navigation }) {
           <Input
             placeholder={'Senha'}
             style={{ fontFamily: 'Montserrat_400Regular' }}
+            autoCorrect={false}
+            autoCapitalize="none"
+            onChangeText={(text) => setPassword(text)}
+            secureTextEntry
           />
         </Item>
 
-        <Button onPress={() => navigation.navigate('Menu')}>
-          <Label style={{ fontFamily: 'Montserrat_500Medium', color: colors.white }}>Entrar</Label>
+        <Button onPress={loginApp}>
+          <Label
+            style={{ fontFamily: 'Montserrat_500Medium', color: colors.white }}
+          >
+            Entrar
+          </Label>
         </Button>
       </Form>
     </Container>
-  )
+  );
 }

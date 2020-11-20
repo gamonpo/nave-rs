@@ -95,7 +95,7 @@ export default function Home({ route, navigation }) {
           <Foundation name="trash" size={20} color="black" />
         </Delete>
 
-        <Edit onPress={() => navigation.navigate('EditNaver', { item: item })}>
+        <Edit onPress={() => navigation.navigate('EditNaver', { item: item, token: token })}>
           <MaterialIcons name="edit" size={20} color="black" />
         </Edit>
       </Action>

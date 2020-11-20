@@ -182,7 +182,7 @@ export default function Profile({ route, navigation }) {
               margin: 2,
               left: 40,
             }}
-            onPress={() => navigation.navigate('EditNaver', { item: item })}
+            onPress={() => navigation.navigate('EditNaver', { item: item, token: token })}
           >
             <Ico>
               <MaterialIcons name="edit" size={20} color="white" />

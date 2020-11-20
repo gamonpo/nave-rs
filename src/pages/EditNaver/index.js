@@ -13,10 +13,7 @@ import { Title, Info } from './styles';
 import colors from '../../style/colors';
 
 export default function EditNaver({ route, navigation }) {
-  const { item } = route.params;
-
-  const token =
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImRiMjIxYjI1LTc5NDUtNDBlYy1iMTczLTJlNWI1Mzc2OWFmMyIsImVtYWlsIjoiZ2Ftb25wb0BvdXRsb29rLmNvbSIsImlhdCI6MTYwNTczNzExMX0.P_pf0qqbONox7wUd2nlTI-crA-d_0H_SuygnLKiMJ30';
+  const { item, token } = route.params;
 
   const [name, setName] = useState();
   const [role, setRole] = useState();
